@@ -33,6 +33,10 @@ class MusicApp:
             pickle.dump(self, file)
 
     def add__song(self, song: Song):
+        if song is None:
+            raise AttributeError("Song can't be None")
+        if song.get_artist() is None:
+            raise AttributeError("Artist can't be None")
         if not self.__artist.contains(song.get_artist()):
             raise AttributeError("Artist not found")
         else:
