@@ -4,7 +4,7 @@ class Node:
         self.next = next
 
 
-class CircularLinkedList:
+class CircularList:
     def __init__(self):
         self.__size = 0
         self.__sorted = False
@@ -159,7 +159,7 @@ class CircularLinkedList:
     def sub_list(self, start, end):
         if start < 0 or end > self.__size or start >= end:
             raise ValueError("Invalid start or end index")
-        sub_list = CircularLinkedList()
+        sub_list = CircularList()
         current = self.__head
         for i in range(start):
             current = current.next
