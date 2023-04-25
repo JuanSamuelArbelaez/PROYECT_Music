@@ -1,10 +1,17 @@
-class Node:
-    def __init__(self, value, next=None):
+from typing import Generic, TypeVar, Union
+
+
+T = TypeVar('T')
+S = TypeVar('S', bound=Union['BinaryTree', 'CircularList', 'DoubleLinkedList', 'HashMap', 'LinkedList'])
+
+
+class Node(Generic[T]):
+    def __init__(self, value: T, next=None):
         self.value = value
         self.next = next
 
 
-class LinkedList:
+class LinkedList(Generic[T]):
     def __init__(self):
         self._size = 0
         self._sorted = False
@@ -19,7 +26,7 @@ class LinkedList:
     def isEmpty(self):
         return self._size == 0
 
-    def contains(self, value):
+    def contains(self, value: T):
         current = self._head
         while current:
             if current.value == value:
@@ -27,7 +34,7 @@ class LinkedList:
             current = current.next
         return False
 
-    def add(self, index, value):
+    def add(self, index: int, value: T):
         if not self.validIndex(index):
             raise IndexError("Invalid index")
         if index == 0:
@@ -40,7 +47,7 @@ class LinkedList:
         self._size += 1
         self._sorted = False
 
-    def append(self, value):
+    def append(self, value: T):
         if self.isEmpty():
             self._head = Node(value)
         else:
@@ -51,7 +58,7 @@ class LinkedList:
         self._size += 1
         self._sorted = False
 
-    def remove(self, index):
+    def remove(self, index: int):
         if not self.validIndex(index):
             raise IndexError("Invalid index")
         if index == 0:
@@ -63,7 +70,7 @@ class LinkedList:
             current.next = current.next.next
         self._size -= 1
 
-    def remove_by_value(self, value):
+    def remove_by_value(self, value: T):
         if self.isEmpty():
             return
         if self._head.value == value:
@@ -78,7 +85,7 @@ class LinkedList:
                 return
             current = current.next
 
-    def poll(self, index):
+    def poll(self, index: int):
         if not self.validIndex(index):
             raise IndexError("Invalid index")
         current = self._head
@@ -92,7 +99,7 @@ class LinkedList:
         self._head = self._merge_sort(self._head)
         self._sorted = True
 
-    def _merge_sort(self, head):
+    def _merge_sort(self, head: Node):
         if not head or not head.next:
             return head
         middle = self._get_middle(head)
@@ -102,7 +109,7 @@ class LinkedList:
         right = self._merge_sort(next_to_middle)
         return self._sorted_merge(left, right)
 
-    def _sorted_merge(self, a, b):
+    def _sorted_merge(self, a: Node, b: Node):
         if not a:
             return b
         if not b:
@@ -115,7 +122,7 @@ class LinkedList:
             result.next = self._sorted_merge(a, b.next)
         return result
 
-    def _get_middle(self, head):
+    def _get_middle(self, head: Node):
         if not head:
             return head
         slow = head
@@ -125,7 +132,7 @@ class LinkedList:
             fast = fast.next.next
         return slow
 
-    def insert(self, value):
+    def insert(self, value: T):
         if not self._sorted:
             raise ValueError("List is not sorted")
         if self.isEmpty() or self._head.value >= value:
@@ -138,7 +145,7 @@ class LinkedList:
         current.next = Node(value, current.next)
         self._size += 1
 
-    def addAll(self, other):
+    def addAll(self, other: S):
         for value in other:
             self.append(value)
 
@@ -147,10 +154,10 @@ class LinkedList:
         self._size = 0
         self._sorted = False
 
-    def get(self, index):
+    def get(self, index: int):
         return self.poll(index)
 
-    def indexOf(self, value):
+    def indexOf(self, value: T):
         index = 0
         current = self._head
         while current:
@@ -160,7 +167,7 @@ class LinkedList:
             index += 1
         return -1
 
-    def lastIndexOf(self, value):
+    def lastIndexOf(self, value: T):
         index = 0
         last_index = -1
         current = self._head
@@ -171,10 +178,10 @@ class LinkedList:
             index += 1
         return last_index
 
-    def validIndex(self, index):
+    def validIndex(self, index: int):
         return 0 <= index <= self._size
 
-    def subList(self, start, end):
+    def subList(self, start: int, end: int):
         if not self.validIndex(start) or not self.validIndex(end) or start > end:
             raise IndexError("Invalid index")
         sub_list = LinkedList()
@@ -186,12 +193,12 @@ class LinkedList:
             current = current.next
         return sub_list
 
-    def removeAll(self, other):
+    def removeAll(self, other: S):
         for value in other:
             while self.contains(value):
                 self.remove_by_value(value)
 
-    def appendList(self, other):
+    def appendList(self, other: S):
         self.addAll(other)
 
     def __iter__(self):
