@@ -202,7 +202,7 @@ class DoubleLinkedList:
             self.append(node.value)
             node = node.next
 
-    def iterator(self):
+    def __iter__(self):
         node = self.__head
         while node is not None:
             yield node.value

@@ -132,7 +132,7 @@ class Stack:
         for value in iterable:
             self.push(value)
 
-    def iterator(self):
+    def __iter__(self):
         current = self.__top
         while current is not None:
             yield current.value

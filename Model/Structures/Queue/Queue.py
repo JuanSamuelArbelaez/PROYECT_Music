@@ -147,7 +147,7 @@ class Queue:
         for value in other:
             self.push(value)
 
-    def iterator(self):
+    def __iter__(self):
         current = self.__head
         while current:
             yield current.value

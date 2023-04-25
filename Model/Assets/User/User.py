@@ -2,39 +2,41 @@ from Model.Structures.CircularList.CircularList import CircularList
 
 
 class User:
-    def __init__(self, username, password, email, songList=None):
-        self._username = username
-        self._password = password
-        self._email = email
-        self._song_list = CircularList()
+    def __init__(self, username, password, email):
+        self.__username = username
+        self.__password = password
+        self.__email = email
+        self.__song_list = CircularList()
 
     def get_username(self):
-        return self._username
+        return self.__username
 
     def set_username(self, username):
-        self._username = username
+        self.__username = username
 
     def get_password(self):
-        return self._password
+        return self.__password
 
     def set_password(self, password):
-        self._password = password
+        self.__password = password
 
     def get_email(self):
-        return self._email
+        return self.__email
 
     def set_email(self, email):
-        self._email = email
+        self.__email = email
 
     def get_song_list(self):
-        return self._song_list
+        return self.__song_list
 
     def set_song_list(self, song_list):
-        self._song_list = song_list
+        self.__song_list = song_list
 
     def add_song(self, song):
-        self._song_list.append(song)
+        self.__song_list.append(song)
 
     def delete_song(self, song):
-        self._song_list.remove_value(song)
+        self.__song_list.remove_value(song)
 
+    def sort_song_list(self, key):
+        self.__song_list.sort(key)

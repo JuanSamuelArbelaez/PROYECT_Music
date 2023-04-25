@@ -194,7 +194,7 @@ class LinkedList:
     def appendList(self, other):
         self.addAll(other)
 
-    def iterator(self):
+    def __iter__(self):
         current = self._head
         while current:
             yield current.value

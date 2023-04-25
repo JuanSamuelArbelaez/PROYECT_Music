@@ -6,6 +6,7 @@ class Node:
 
 class CircularList:
     def __init__(self):
+        self.__sorted_by = None
         self.__size = 0
         self.__sorted = False
         self.__head = None
@@ -18,6 +19,9 @@ class CircularList:
 
     def is_empty(self):
         return self.__size == 0
+
+    def get_sort_key(self):
+        return self.__sorted_by
 
     def contains(self, value):
         current = self.__head
@@ -72,6 +76,7 @@ class CircularList:
                 current = current.next
             current.next = current.next.next
         self.__size -= 1
+        self.__sorted = False
 
     def remove_value(self, value):
         current = self.__head
@@ -80,6 +85,7 @@ class CircularList:
                 self.remove(i)
                 return True
             current = current.next
+            self.__sorted = False
         return False
 
     def poll(self, index):
@@ -92,21 +98,32 @@ class CircularList:
         self.remove(index)
         return value
 
-    def sort(self):
-        if not self.__sorted:
-            node_list = []
-            current = self.__head
-            for i in range(self.__size):
-                node_list.append(current)
-                current = current.next
-            node_list.sort(key=lambda x: x.value)
-            self.__head = node_list[0]
-            current = self.__head
-            for i in range(self.__size - 1):
-                current.next = node_list[i + 1]
-                current = current.next
-            current.next = self.__head
-            self.__sorted = True
+    def sort(self, key=None):
+        if self.__sorted and self.__sorted_by == key:
+            return
+
+        if key is None:
+            key = lambda x: x
+
+        # convert string key to attribute getter function
+        if isinstance(key, str):
+            key = lambda x: getattr(x, key)
+        else:
+            raise AttributeError("Attribute {key} not found")
+
+        # convert list to tuple to prevent modification during sorting
+        nodes = tuple(self)
+
+        # use key function to sort nodes
+        nodes = sorted(nodes, key=key)
+
+        # rebuild list from sorted nodes
+        self.__head = None
+        for node in nodes:
+            self.append(node.value)
+
+        self.__sorted = True
+        self.__sorted_by = key if not isinstance(key, str) else None
 
     def insert(self, value):
         if self.__sorted:
@@ -116,6 +133,7 @@ class CircularList:
                 current = current.next
                 index += 1
             self.add(index, value)
+            self.__sorted = False
         else:
             raise Exception("Cannot insert into unsorted list")
 
@@ -127,6 +145,7 @@ class CircularList:
         self.__head = None
         self.__size = 0
         self.__sorted = False
+        self.__sorted_by = None
 
     def get(self, index):
         if index < 0 or index >= self.__size:
@@ -183,6 +202,7 @@ class CircularList:
             else:
                 prev = current
             current = current.next
+            self.__sorted = False
         return removed_count
 
     def append_list(self, other):
@@ -193,7 +213,7 @@ class CircularList:
             self.append(current.value)
             current = current.next
 
-    def iterator(self):
+    def __iter__(self):
         current = self.__head
         while True:
             yield current.value
