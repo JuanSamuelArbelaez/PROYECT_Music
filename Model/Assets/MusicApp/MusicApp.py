@@ -1,5 +1,6 @@
 import os
 import pickle
+import string
 
 from Model.Assets.Admin.Admin import Admin
 from Model.Assets.Artist import Artist
@@ -49,6 +50,9 @@ class MusicApp:
 
     def add__user(self, user: User):
         self.__users.put(user.get_username(), user)
+
+    def add_song_tag(self, song: Song, tag: string):
+        song.add_tag(tag)
 
     def remove__song(self, song: Song):
         if self.__songs.contains(song):

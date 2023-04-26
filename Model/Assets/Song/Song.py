@@ -4,13 +4,13 @@ from Model.Assets.Album import Album
 from Model.Assets.Artist import Artist
 from Model.Assets.Cover.Cover import Cover
 from Model.Assets.Tag.Tag import Tag
-from Model.Structures.LinkedList.LinkedList import LinkedList
+from Model.Structures.BinaryTree.BinaryTree import BinaryTree
 
 
 class Song:
 
-    def __init__(self, name: string, code: string, album, artist: Artist, year: string, duration: int, genre: string,
-                 url: string):
+    def __init__(self, name: string, code: string, album: Album, artist: Artist, year: string, duration: int,
+                 genre: string, url: string):
         self.__name = name
         self.__id = code
         self.__album = album
@@ -21,9 +21,9 @@ class Song:
         self.__url = url
         self.__cover = Cover(self.__url, code)
         # self.__audio = Audio(self.__url)
-        self.__tags = LinkedList()
-        self.__tags.append(self.__genre)
-        self.__tags.append(self.__artist)
+        self.__tags = BinaryTree()
+        self.__tags.add(self.__genre)
+        self.__tags.add(self.__artist)
 
     def get_name(self):
         return self.__name
@@ -78,3 +78,18 @@ class Song:
 
     def set_cover(self, code: string):
         self.__cover = Cover(self.__url, code)
+
+    def get_tags(self):
+        return self.__tags
+
+    def add_tag(self, tag: string):
+        if self.__tags.contains(tag):
+            raise AttributeError("Song already has this tag")
+        else:
+            self.__tags.add(tag)
+
+    def remove_tag(self, tag: string):
+        self.__tags.remove(tag)
+
+    def contains_tag(self, tag: string):
+        return self.__tags.contains(tag)
