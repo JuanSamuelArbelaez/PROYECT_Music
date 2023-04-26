@@ -1,5 +1,11 @@
-class Node:
-    def __init__(self, value, next=None):
+from typing import TypeVar, Union, Generic
+
+T = TypeVar('T')
+S = TypeVar('S', bound=Union['BinaryTree', 'CircularList', 'DoubleLinkedList', 'HashMap', 'LinkedList'])
+
+
+class Node(Generic[T]):
+    def __init__(self, value: T, next=None):
         self.value = value
         self.next = next
 
@@ -23,7 +29,7 @@ class CircularList:
     def get_sort_key(self):
         return self.__sorted_by
 
-    def contains(self, value):
+    def contains(self, value: T):
         current = self.__head
         for i in range(self.__size):
             if current.value == value:
@@ -31,7 +37,7 @@ class CircularList:
             current = current.next
         return False
 
-    def add(self, index, value):
+    def add(self, index: int, value: T):
         if index < 0 or index > self.__size:
             raise IndexError("Index out of range")
         new_node = Node(value)
@@ -55,10 +61,10 @@ class CircularList:
         self.__size += 1
         self.__sorted = False
 
-    def append(self, value):
+    def append(self, value: T):
         self.add(self.__size, value)
 
-    def remove(self, index):
+    def remove(self, index: int):
         if index < 0 or index >= self.__size:
             raise IndexError("Index out of range")
         if index == 0:
@@ -78,7 +84,7 @@ class CircularList:
         self.__size -= 1
         self.__sorted = False
 
-    def remove_value(self, value):
+    def remove_value(self, value: T):
         current = self.__head
         for i in range(self.__size):
             if current.value == value:
@@ -88,7 +94,7 @@ class CircularList:
             self.__sorted = False
         return False
 
-    def poll(self, index):
+    def poll(self, index: int):
         if index < 0 or index >= self.__size:
             raise IndexError("Index out of range")
         current = self.__head
@@ -98,7 +104,7 @@ class CircularList:
         self.remove(index)
         return value
 
-    def sort(self, key=None):
+    def sort(self, key):
         if self.__sorted and self.__sorted_by == key:
             return
 
@@ -125,7 +131,7 @@ class CircularList:
         self.__sorted = True
         self.__sorted_by = key if not isinstance(key, str) else None
 
-    def insert(self, value):
+    def insert(self, value: T):
         if self.__sorted:
             current = self.__head
             index = 0
@@ -137,7 +143,7 @@ class CircularList:
         else:
             raise Exception("Cannot insert into unsorted list")
 
-    def add_all(self, other):
+    def add_all(self, other: S):
         for value in other:
             self.append(value)
 
@@ -147,7 +153,7 @@ class CircularList:
         self.__sorted = False
         self.__sorted_by = None
 
-    def get(self, index):
+    def get(self, index: int):
         if index < 0 or index >= self.__size:
             raise IndexError("Index out of range")
         current = self.__head
@@ -155,7 +161,7 @@ class CircularList:
             current = current.next
         return current.value
 
-    def index_of(self, value):
+    def index_of(self, value: T):
         current = self.__head
         for i in range(self.__size):
             if current.value == value:
@@ -163,7 +169,7 @@ class CircularList:
             current = current.next
         return -1
 
-    def last_index_of(self, value):
+    def last_index_of(self, value: T):
         current = self.__head
         last_index = -1
         for i in range(self.__size):
@@ -172,10 +178,10 @@ class CircularList:
             current = current.next
         return last_index
 
-    def valid_index(self, index):
+    def valid_index(self, index: int):
         return 0 <= index < self.__size
 
-    def sub_list(self, start, end):
+    def sub_list(self, start: int, end: int):
         if start < 0 or end > self.__size or start >= end:
             raise ValueError("Invalid start or end index")
         sub_list = CircularList()
@@ -187,7 +193,7 @@ class CircularList:
             current = current.next
         return sub_list
 
-    def remove_all(self, value):
+    def remove_all(self, value: T):
         current = self.__head
         prev = None
         removed_count = 0
@@ -205,7 +211,7 @@ class CircularList:
             self.__sorted = False
         return removed_count
 
-    def append_list(self, other):
+    def append_list(self, other: S):
         if other is None or other.is_empty():
             return
         current = other.__head
