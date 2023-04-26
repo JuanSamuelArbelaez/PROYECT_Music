@@ -52,8 +52,19 @@ class MusicApp:
         self.__users.put(user.get_username(), user)
 
     def add_song_tag(self, song: Song, tag: string):
-        song.add_tag(tag)
+        if song.contains_tag(tag):
+            raise AttributeError("Tag already assigned here")
+        else:
+            song.add_tag(tag)
 
-    def remove__song(self, song: Song):
-        if self.__songs.contains(song):
+    def remove_song_tag(self, song: Song, tag: string):
+        if not song.contains_tag(tag):
+            raise AttributeError("Unable to delete tab not assigned")
+        else:
+            song.remove_tag(tag)
+
+    def remove_song(self, song: Song):
+        if not self.__songs.contains(song):
+            raise AttributeError("Unable to delete not instanced Song")
+        else:
             self.__songs.remove(song)
