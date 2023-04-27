@@ -1,7 +1,8 @@
 from typing import Generic, TypeVar, Union
 
+from Model.Structures.ComparableValue.ComparableValue import ComparableValue
 
-T = TypeVar('T')
+T = TypeVar('T', bound=ComparableValue)
 S = TypeVar('S', bound=Union['BinaryTree', 'CircularList', 'DoubleLinkedList', 'HashMap', 'LinkedList'])
 
 
@@ -49,12 +50,12 @@ class LinkedList(Generic[T]):
 
     def append(self, value: T):
         if self.isEmpty():
-            self._head = Node(value)
+            self._head = Node[T](value)
         else:
             current = self._head
             while current.next:
                 current = current.next
-            current.next = Node(value)
+            current.next = Node[T](value)
         self._size += 1
         self._sorted = False
 
@@ -99,7 +100,7 @@ class LinkedList(Generic[T]):
         self._head = self._merge_sort(self._head)
         self._sorted = True
 
-    def _merge_sort(self, head: Node):
+    def _merge_sort(self, head: 'Node'):
         if not head or not head.next:
             return head
         middle = self._get_middle(head)
@@ -109,7 +110,7 @@ class LinkedList(Generic[T]):
         right = self._merge_sort(next_to_middle)
         return self._sorted_merge(left, right)
 
-    def _sorted_merge(self, a: Node, b: Node):
+    def _sorted_merge(self, a: 'Node', b: 'Node'):
         if not a:
             return b
         if not b:
@@ -122,7 +123,7 @@ class LinkedList(Generic[T]):
             result.next = self._sorted_merge(a, b.next)
         return result
 
-    def _get_middle(self, head: Node):
+    def _get_middle(self, head: 'Node'):
         if not head:
             return head
         slow = head

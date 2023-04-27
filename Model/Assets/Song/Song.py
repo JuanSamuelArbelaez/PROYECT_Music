@@ -1,15 +1,16 @@
-import string
+from __future__ import annotations
 
+import string
 from Model.Assets.Album import Album
-from Model.Assets.Artist import Artist
 from Model.Assets.Cover.Cover import Cover
 from Model.Assets.Tag.Tag import Tag
 from Model.Structures.BinaryTree.BinaryTree import BinaryTree
+from Model.Structures.ComparableValue.ComparableValue import ComparableValue
 
 
-class Song:
+class Song(ComparableValue):
 
-    def __init__(self, name: string, code: string, album: Album, artist: Artist, year: string, duration: int,
+    def __init__(self, name: string, code: string, album: Album, artist, year: string, duration: int,
                  genre: string, url: string):
         self.__name = name
         self.__id = code
@@ -22,8 +23,8 @@ class Song:
         self.__cover = Cover(self.__url, code)
         # self.__audio = Audio(self.__url)
         self.__tags = BinaryTree()
-        self.__tags.add(self.__genre)
-        self.__tags.add(self.__artist)
+        self.__tags.add(self.__genre.get_attribute__())
+        self.__tags.add(self.__artist.get_name())
 
     def get_name(self):
         return self.__name
@@ -46,7 +47,7 @@ class Song:
     def get_artist(self):
         return self.__artist
 
-    def set_artist(self, artist: Artist):
+    def set_artist(self, artist):
         self.__artist = artist
 
     def get_year(self):
@@ -93,3 +94,18 @@ class Song:
 
     def contains_tag(self, tag: string):
         return self.__tags.contains(tag)
+
+    def __lt__(self, other: 'Song') -> bool:
+        return self.__id < other.get_id()
+
+    def __gt__(self, other: 'Song') -> bool:
+        return self.__id > other.get_id()
+
+    def __eq__(self, other: 'Song') -> bool:
+        return self.__id == other.get_id()
+
+    def __le__(self, other: 'Song') -> bool:
+        return self.__id <= other.get_id()
+
+    def __ge__(self, other: 'Song') -> bool:
+        return self.__id >= other.get_id()

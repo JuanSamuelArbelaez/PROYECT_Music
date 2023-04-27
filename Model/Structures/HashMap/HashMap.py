@@ -1,10 +1,18 @@
-class Node:
-    def __init__(self, key, value, next_node=None):
+from typing import TypeVar, Generic
+
+from Model.Structures.ComparableValue.ComparableValue import ComparableValue
+
+T = TypeVar('T', bound=ComparableValue)
+
+
+class Node(Generic[T]):
+    def __init__(self, key, value: T, next_node=None):
         self.key = key
         self.value = value
         self.next = next_node
 
-class HashMap:
+
+class HashMap(Generic[T]):
     DEFAULT_CAPACITY = 16
     DEFAULT_LOAD_FACTOR = 0.75
 
@@ -20,7 +28,7 @@ class HashMap:
     def isEmpty(self):
         return self.size == 0
 
-    def contains_value(self, value):
+    def contains_value(self, value: T):
         for node in self.table:
             while node is not None:
                 if node.value == value:
@@ -37,7 +45,7 @@ class HashMap:
             node = node.next
         return False
 
-    def put(self, key, value):
+    def put_in(self, key, value: T):
         index = self.hash_of(key)
         node = self.table[index]
         while node is not None:
@@ -45,7 +53,7 @@ class HashMap:
                 node.value = value
                 return
             node = node.next
-        new_node = Node(key, value)
+        new_node = Node[T](key, value)
         new_node.next = self.table[index]
         self.table[index] = new_node
         self.size += 1
@@ -105,7 +113,7 @@ class HashMap:
         for key in other:
             self.remove(key)
 
-    def iterator(self):
+    def __iter__(self):
         for node in self.table:
             while node is not None:
                 yield node.key

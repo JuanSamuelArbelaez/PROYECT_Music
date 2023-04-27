@@ -1,6 +1,8 @@
 from typing import TypeVar, Union, Generic
 
-T = TypeVar('T')
+from Model.Structures.ComparableValue.ComparableValue import ComparableValue
+
+T = TypeVar('T', bound=ComparableValue)
 S = TypeVar('S', bound=Union['BinaryTree', 'CircularList', 'DoubleLinkedList', 'HashMap', 'LinkedList'])
 
 
@@ -10,7 +12,7 @@ class Node(Generic[T]):
         self.next = next
 
 
-class CircularList:
+class CircularList(Generic[T]):
     def __init__(self):
         self.__sorted_by = None
         self.__size = 0

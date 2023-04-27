@@ -17,23 +17,29 @@ class MusicApp:
 
         self.file_path = file_path
 
+        """
         if os.path.exists(file_path):
             with open(file_path, 'rb') as file:
                 loaded = pickle.load(file)
                 self.__dict__.update(loaded.__dict__)
         else:
             self.__artist = BinaryTree()
-            self.__songs = LinkedList()
+            self.__songs = LinkedList[Song]()
             self.__users = HashMap()
             self.__admin = Admin("Robin", "0todos", "robin@musicapp.com")
             self.save()
             pass
+            """
+        self.__artist = BinaryTree[Artist]()
+        self.__songs = LinkedList[Song]()
+        self.__users = HashMap[User]()
+        self.__admin = Admin("Robin", "0todos", "robin@musicapp.com")
 
     def save(self):
         with open(self.file_path, 'wb') as file:
             pickle.dump(self, file)
 
-    def add__song(self, song: Song):
+    def add_song(self, song: Song):
         if song is None:
             raise AttributeError("Song can't be None")
         if song.get_artist() is None:
@@ -44,12 +50,12 @@ class MusicApp:
             song.get_artist().add_song(song)
             self.__songs.append(song)
 
-    def add__artist(self, artist: Artist):
+    def add_artist(self, artist: Artist):
         self.__artist.add(artist)
         self.__artist.balance()
 
-    def add__user(self, user: User):
-        self.__users.put(user.get_username(), user)
+    def add_user(self, user: User):
+        self.__users.put_in(user.get_username(), user)
 
     def add_song_tag(self, song: Song, tag: string):
         if song.contains_tag(tag):
@@ -68,3 +74,6 @@ class MusicApp:
             raise AttributeError("Unable to delete not instanced Song")
         else:
             self.__songs.remove(song)
+
+    def get_songs(self):
+        return self.__songs
