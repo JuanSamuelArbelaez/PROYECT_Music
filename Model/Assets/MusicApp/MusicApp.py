@@ -84,3 +84,10 @@ class MusicApp:
         if not self.__users.contains_value(user):
             raise AttributeError("User not founded")
         user.add_song(song)
+
+    def remove_user_song(self, user: User, song: Song):
+        if not self.__songs.contains(song):
+            raise AttributeError("Song not founded")
+        if not self.__users.contains_value(user):
+            raise AttributeError("User not founded")
+        user.delete_song(song)

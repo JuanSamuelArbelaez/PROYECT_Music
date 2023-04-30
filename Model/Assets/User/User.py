@@ -62,3 +62,6 @@ class User:
 
     def redo(self):
         self.__undo_redo_manager.redo()
+
+    def contains_song(self, song: Song):
+        return self.__song_list.contains(song)
