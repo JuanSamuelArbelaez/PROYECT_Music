@@ -61,6 +61,12 @@ def set_app():
 
     for song in u1.get_song_list():
         print(song.get_name()+";"+song.get_id()+";")
+    print("\n")
+
+    u1.delete_song(s5)
+
+    for song in u1.get_song_list():
+        print(song.get_name()+";"+song.get_id()+";")
 
     u2 = User("Tomas", "torta2", "lordsith@gmail.com")
     u3 = User("Cecilia", "torta2", "clia@gmail.com")
