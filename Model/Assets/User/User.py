@@ -6,7 +6,7 @@ from Model.Tools.UndoRedoManager.UndoRedoManager import UndoRedoManager
 
 
 class User:
-    def __init__(self, username: string, password: string, email: string):
+    def __init__(self, username: str, password: str, email: str):
         self.__username = username
         self.__password = password
         self.__email = email
@@ -16,25 +16,25 @@ class User:
     def get_username(self):
         return self.__username
 
-    def set_username(self, username):
+    def set_username(self, username: str):
         self.__username = username
 
     def get_password(self):
         return self.__password
 
-    def set_password(self, password: string):
+    def set_password(self, password: str):
         self.__password = password
 
     def get_email(self):
         return self.__email
 
-    def set_email(self, email: string):
+    def set_email(self, email: str):
         self.__email = email
 
     def get_song_list(self):
         return self.__song_list
 
-    def set_song_list(self, song_list: string):
+    def set_song_list(self, song_list: CircularList[Song]):
         self.__song_list = song_list
 
     def add_song(self, song: Song):
