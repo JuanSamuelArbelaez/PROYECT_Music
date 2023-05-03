@@ -23,8 +23,10 @@ class Song(ComparableValue):
         self.__cover = Cover(self.__url, code)
         # self.__audio = Audio(self.__url)
         self.__tags = BinaryTree()
-        self.__tags.add(self.__genre.get_attribute__())
-        self.__tags.add(self.__artist.get_name())
+        self.__tags.add(self.__genre)
+        self.__tags.add(Tag(self.__artist.get_name()))
+        self.__tags.add(Tag(album.name))
+        self.__tags.balance()
 
     def get_name(self):
         return self.__name
@@ -80,20 +82,34 @@ class Song(ComparableValue):
     def set_cover(self, code: string):
         self.__cover = Cover(self.__url, code)
 
-    def get_tags(self):
-        return self.__tags
+    def get_all_tags(self) -> []:
+        return self.__tags.in_order_traversal()
 
-    def add_tag(self, tag: string):
+    def get_filtered_tags(self, tag: Tag) -> []:
+        values = []
+        for aux_tag in self.get_all_tags():
+            if tag.get_compatibility(aux_tag):
+                values.append(aux_tag)
+        return values
+
+    def add_tag(self, tag: Tag):
         if self.__tags.contains(tag):
             raise AttributeError("Song already has this tag")
         else:
             self.__tags.add(tag)
+            self.__tags.balance()
 
-    def remove_tag(self, tag: string):
+    def remove_tag(self, tag: Tag):
         self.__tags.remove(tag)
 
-    def contains_tag(self, tag: string):
+    def contains_true_tag(self, tag: Tag) -> bool:
         return self.__tags.contains(tag)
+
+    def contains_partial_tag(self, tag: Tag) -> bool:
+        for aux_tag in self.get_all_tags():
+            if tag.get_compatibility(aux_tag):
+                return True
+        return False
 
     def __lt__(self, other: 'Song') -> bool:
         return self.__id < other.get_id()

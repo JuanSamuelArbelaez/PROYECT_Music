@@ -5,6 +5,7 @@ import string
 from Model.Assets.Admin.Admin import Admin
 from Model.Assets.Artist import Artist
 from Model.Assets.Song import Song
+from Model.Assets.Tag.Tag import Tag
 from Model.Assets.User import User
 from Model.Structures.BinaryTree.BinaryTree import BinaryTree
 from Model.Structures.HashMap.HashMap import HashMap
@@ -58,13 +59,13 @@ class MusicApp:
         self.__users.put_in(user.get_username(), user)
 
     def add_song_tag(self, song: Song, tag: string):
-        if song.contains_tag(tag):
+        if song.contains_true_tag(tag):
             raise AttributeError("Tag already assigned here")
         else:
             song.add_tag(tag)
 
     def remove_song_tag(self, song: Song, tag: string):
-        if not song.contains_tag(tag):
+        if not song.contains_true_tag(tag):
             raise AttributeError("Unable to delete tab not assigned")
         else:
             song.remove_tag(tag)

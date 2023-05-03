@@ -3,6 +3,7 @@ from Model.Assets.Album.Album import Album
 from Model.Assets.Artist.Artist import Artist
 from Model.Assets.MusicApp.MusicApp import MusicApp
 from Model.Assets.Song.Song import Song
+from Model.Assets.Tag.Tag import Tag
 from Model.Assets.User.User import User
 
 
@@ -45,12 +46,35 @@ def set_app():
     al5 = Album("Luxury", "2021")
     a5.add_album(al5)
     app.add_artist(a5)
+
     s5 = Song("Beach", "1la0AG", al5, a5, al5.year, 49, "pop", "https://www.youtube.com/watch?v=WSukD4Y_QY0")
+    s5.add_tag(Tag("Trending"))
+    s5.add_tag(Tag("Alelux"))
+    s5.add_tag(Tag("Partrend"))
+    s5.add_tag(Tag("Atrendding"))
     app.add_song(s5)
 
-    for song in app.get_songs():
-        print(song.get_name()+";"+song.get_id()+";")
+    print(str(s5.contains_true_tag(Tag("ding"))) + "\n")
+    print(str(s5.contains_partial_tag(Tag("ding"))) + "\n")
 
+    for song in app.get_songs():
+        for tag in song.get_all_tags():
+            print(song.get_name()+";"+tag.get_attribute()+" == Trend -> "+str(tag.get_compatibility(Tag("Trend"))))
+    print("\n")
+
+    for song in app.get_songs():
+        for tag in song.get_all_tags():
+            print(song.get_name()+";"+tag.get_attribute()+" == a -> "+str(tag.get_compatibility(Tag("a"))))
+    print("\n")
+
+    for song in app.get_songs():
+        for tag in song.get_filtered_tags(Tag("a")):
+            print(song.get_name()+";"+tag.get_attribute())
+    print("\n")
+
+    for song in app.get_songs():
+        artist = song.get_artist()
+        print(song.get_name()+";"+song.get_id()+";"+artist.get_name()+";"+song.get_url())
     print("\n")
 
     u1 = User("Carla", "torta2", "carton@gmail.com")
@@ -60,13 +84,16 @@ def set_app():
     app.add_user_song(u1, s1)
 
     for song in u1.get_song_list():
-        print(song.get_name()+";"+song.get_id()+";")
+        artist = song.get_artist()
+        print(song.get_name() + ";" + song.get_id() + ";" + artist.get_name() + ";" + song.get_url())
     print("\n")
 
     u1.delete_song(s5)
 
     for song in u1.get_song_list():
-        print(song.get_name()+";"+song.get_id()+";")
+        artist = song.get_artist()
+        print(song.get_name() + ";" + song.get_id() + ";" + artist.get_name() + ";" + song.get_url())
+    print("\n")
 
     u2 = User("Tomas", "torta2", "lordsith@gmail.com")
     u3 = User("Cecilia", "torta2", "clia@gmail.com")
