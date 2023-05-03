@@ -1,17 +1,20 @@
 from __future__ import annotations
 
-import string
+import os
+
 from Model.Assets.Album import Album
 from Model.Assets.Cover.Cover import Cover
 from Model.Assets.Tag.Tag import Tag
 from Model.Structures.BinaryTree.BinaryTree import BinaryTree
 from Model.Structures.ComparableValue.ComparableValue import ComparableValue
+from Model.Tools.FileManager.FileManager import retrieve_audio
 
 
 class Song(ComparableValue):
 
-    def __init__(self, name: string, code: string, album: Album, artist, year: string, duration: int,
-                 genre: string, url: string):
+    def __init__(self, name: str, code: str, album: Album, artist, year: str, duration: int,
+                 genre: str, url: str):
+
         self.__name = name
         self.__id = code
         self.__album = album
@@ -20,9 +23,12 @@ class Song(ComparableValue):
         self.__duration = duration
         self.__genre = Tag(genre)
         self.__url = url
-        self.__cover = Cover(self.__url, code)
-        # self.__audio = Audio(self.__url)
-        self.__tags = BinaryTree()
+
+        path = os.path.join(os.path.join(os.getcwd(), "Model"), "Files")
+
+        self.__cover = Cover(code, self.__url, path)
+        # self.__audio = retrieve_audio(code, self.__url, path)
+        self.__tags = BinaryTree[Tag]()
         self.__tags.add(self.__genre)
         self.__tags.add(Tag(self.__artist.get_name()))
         self.__tags.add(Tag(album.name))
@@ -31,13 +37,13 @@ class Song(ComparableValue):
     def get_name(self):
         return self.__name
 
-    def set_name(self, name: string):
+    def set_name(self, name: str):
         self.__name = name
 
     def get_id(self):
         return self.__id
 
-    def set_id(self, code: string):
+    def set_id(self, code: str):
         self.__id = code
 
     def get_album(self):
@@ -55,7 +61,7 @@ class Song(ComparableValue):
     def get_year(self):
         return self.__year
 
-    def set_year(self, year: string):
+    def set_year(self, year: str):
         self.__year = year
 
     def get_duration(self):
@@ -67,7 +73,7 @@ class Song(ComparableValue):
     def get_genre(self):
         return self.__genre
 
-    def set_genre(self, genre: string):
+    def set_genre(self, genre: str):
         self.__genre = Tag(genre)
 
     def get_url(self):
@@ -79,7 +85,7 @@ class Song(ComparableValue):
     def get_cover(self):
         return self.__cover
 
-    def set_cover(self, code: string):
+    def set_cover(self, code: str):
         self.__cover = Cover(self.__url, code)
 
     def get_all_tags(self) -> []:

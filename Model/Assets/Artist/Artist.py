@@ -1,6 +1,4 @@
 from __future__ import annotations
-
-import string
 from Model.Assets.Album.Album import Album
 from Model.Structures.ComparableValue.ComparableValue import ComparableValue
 from Model.Structures.DoubleLinkedList.DoubleLinkedList import DoubleLinkedList
@@ -10,7 +8,7 @@ from Model.Structures.LinkedList.LinkedList import LinkedList
 class Artist(ComparableValue):
     from Model.Assets.Song import Song
 
-    def __init__(self, code: string, name: string, country: string, is_group: bool):
+    def __init__(self, code: str, name: str, country: str, is_group: bool):
         self.__code = code
         self.__name = name
         self.__country = country
@@ -39,34 +37,32 @@ class Artist(ComparableValue):
     def set_code(self, code):
         self.__code = code
 
-    def get_name(self):
+    def get_name(self) -> str:
         return self.__name
 
-    def set_name(self, name: string):
+    def set_name(self, name: str):
         self.__name = name
 
-    def get_country(self):
+    def get_country(self) -> str:
         return self.__country
 
-    def set_country(self, country: string):
+    def set_country(self, country: str):
         self.__country = country
 
-    # Getter and setter for is_group
-    def get_is_group(self):
+    def get_is_group(self) -> bool:
         return self.__is_group
 
     def set_is_group(self, is_group: bool):
         self.__is_group = is_group
 
-    # Getter and setter for song_list
-    def get_song_list(self):
+    def get_song_list(self) -> DoubleLinkedList[Song]:
         return self.__song_list
 
     def set_song_list(self, song_list: DoubleLinkedList[Song]):
         self.__song_list = song_list
 
     # Getter and setter for albums
-    def get_albums(self):
+    def get_albums(self) -> LinkedList[Album]:
         return self.__albums
 
     def set_albums(self, albums: LinkedList[Album]):

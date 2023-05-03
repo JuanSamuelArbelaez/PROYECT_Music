@@ -1,10 +1,8 @@
-import string
-
 from Model.Structures.ComparableValue.ComparableValue import ComparableValue
 
 
 class Album(ComparableValue):
-    def __init__(self, name: string, year: string):
+    def __init__(self, name: str, year: str):
         self.name = name
         self.year = year
 

@@ -1,8 +1,7 @@
-import string
-
+from Model.Tools.FileManager.FileManager import retrieve_image
 
 class Cover:
-    def __init__(self, url, code: string):
+    def __init__(self, code: str, url, path: str):
+        self.__id = code
         self.__url = url
-        self.__id = id
-        #self.__img = ImgManager()
+        self.__img = retrieve_image(code, url, path)
