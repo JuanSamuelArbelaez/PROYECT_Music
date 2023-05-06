@@ -1,11 +1,7 @@
-import os
-import pickle
 import string
-
 from Model.Assets.Admin.Admin import Admin
 from Model.Assets.Artist import Artist
 from Model.Assets.Song import Song
-from Model.Assets.Tag.Tag import Tag
 from Model.Assets.User import User
 from Model.Structures.BinaryTree.BinaryTree import BinaryTree
 from Model.Structures.HashMap.HashMap import HashMap
@@ -13,32 +9,11 @@ from Model.Structures.LinkedList.LinkedList import LinkedList
 
 
 class MusicApp:
-    def __init__(self, file_path):
-        # Replace serialization on path to serialization on cloud
-
-        self.file_path = file_path
-
-        """
-        if os.path.exists(file_path):
-            with open(file_path, 'rb') as file:
-                loaded = pickle.load(file)
-                self.__dict__.update(loaded.__dict__)
-        else:
-            self.__artist = BinaryTree()
-            self.__songs = LinkedList[Song]()
-            self.__users = HashMap()
-            self.__admin = Admin("Robin", "0todos", "robin@musicapp.com")
-            self.save()
-            pass
-            """
+    def __init__(self):
         self.__artist = BinaryTree[Artist]()
         self.__songs = LinkedList[Song]()
         self.__users = HashMap[User]()
         self.__admin = Admin("Robin", "0todos", "robin@musicapp.com")
-
-    def save(self):
-        with open(self.file_path, 'wb') as file:
-            pickle.dump(self, file)
 
     def add_song(self, song: Song):
         if song is None:

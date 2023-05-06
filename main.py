@@ -7,12 +7,8 @@ from Model.Assets.Tag.Tag import Tag
 from Model.Assets.User.User import User
 
 
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
 def set_app():
-    app = MusicApp(r"C:\Users\Samuel\PycharmProjects\PROYECT_Storify\Model\Assets\MusicApp\muse.ic")
+    app = MusicApp()
 
     a1 = Artist("001", "Kali", "USA", False)
     al1 = Album("Weather", "2017")

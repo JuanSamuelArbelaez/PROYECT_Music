@@ -21,3 +21,4 @@ class Admin:
 
     def set_email(self, email: str):
         self.__email = email
+
