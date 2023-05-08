@@ -15,6 +15,7 @@ class BinaryTree(Generic[T]):
 
     def __init__(self):
         self.__height = 0
+        self.__weight = 0
         self.__root = None
 
     def __check_type(self, value: T):
@@ -23,6 +24,9 @@ class BinaryTree(Generic[T]):
 
     def height(self):
         return self.__height
+
+    def weight(self):
+        return self.__weight
 
     def is_empty(self):
         return self.__root is None
@@ -46,8 +50,11 @@ class BinaryTree(Generic[T]):
             self.__root = Node[T](value)
         else:
             self.__add_helper(self.__root, value)
+        self.__weight += 1
 
     def __add_helper(self, node: 'Node[T]', value: T):
+        if value == node.value:
+            raise AttributeError("Tree already contains value: {value}")
         if value < node.value:
             if node.left is None:
                 node.left = Node(value)
@@ -124,3 +131,15 @@ class BinaryTree(Generic[T]):
             self.__post_order_traversal_helper(node.left, values)
             self.__post_order_traversal_helper(node.right, values)
             values.append(node.value)
+
+    def pre_order_traversal(self):
+        values = []
+        self.__pre_order_traversal_helper(self.__root, values)
+        return values
+
+    def __pre_order_traversal_helper(self, node : 'Node[T]', values: [ComparableValue]):
+        if node is not None:
+            values.append(node.value)
+            self.__pre_order_traversal_helper(node.left, values)
+            self.__pre_order_traversal_helper(node.right, values)
+
